@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:preorder/auth/auth_methods.dart';
-import 'package:preorder/indexPage.dart';
 import 'package:preorder/main.dart';
 import 'package:preorder/screen/signup_screen.dart';
 import 'package:preorder/utils/utils.dart';
@@ -35,7 +34,7 @@ class _loginscreenState extends State<loginscreen> {
     if (results == 'succes') {
       Navigator.popUntil(context, (route) => route.isFirst);
       Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) => MyApp()));
+          .pushReplacement(MaterialPageRoute(builder: (context) => const MyApp()));
     } else {
       showSnakBar(results, context);
     }
@@ -67,7 +66,7 @@ class _loginscreenState extends State<loginscreen> {
                   decoration: InputDecoration(
                     hintText: 'email',
                     enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(40),
                       ),
                       borderSide:
@@ -81,7 +80,7 @@ class _loginscreenState extends State<loginscreen> {
                   controller: _pass,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(40),
                       ),
                       borderSide: BorderSide(

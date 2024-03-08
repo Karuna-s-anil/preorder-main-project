@@ -15,12 +15,12 @@ class IndexPage extends StatelessWidget {
     final userProvider = Provider.of<UserProvider>(context);
     final userModel = userProvider.userModel;
     if (userModel!.type == "admin") {
-      return ShopOwnerIndexPage();
+      return const ShopOwnerIndexPage();
     } else {
       if (userModel.type == "security") {
-        return SecurityIndexPage();
+        return const SecurityIndexPage();
       } else {
-        return UserIndexPage();
+        return const UserIndexPage();
       }
     }
   }

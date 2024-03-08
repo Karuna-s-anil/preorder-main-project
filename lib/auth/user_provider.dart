@@ -1,11 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:preorder/auth/auth_methods.dart';
 import 'package:preorder/models/models.dart' as model;
 
 class AuthenticationProvider extends ChangeNotifier {
   FirebaseAuth auth = FirebaseAuth.instance;
-  final authmethods _authmethods = authmethods();
   User? _user;
 
   AuthenticationProvider() {
