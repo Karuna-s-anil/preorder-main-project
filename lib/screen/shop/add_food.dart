@@ -18,6 +18,7 @@ class AddFood extends StatefulWidget {
 class _AddFoodState extends State<AddFood> {
   final TextEditingController _stockController = TextEditingController();
   final TextEditingController _foodController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
 
   void showProgressDialog(BuildContext context) {
     showDialog(
@@ -73,6 +74,7 @@ class _AddFoodState extends State<AddFood> {
         'imageUrl': urlDownload,
         'food': _foodController.text,
         'stock': _stockController.text,
+        'price': _priceController.text,
         'time': DateTime.now(),
         'rating': 0,
         'ratingCount': 0,
@@ -134,7 +136,7 @@ class _AddFoodState extends State<AddFood> {
                 ],
               )),
           Positioned(
-            top: height * 0.5,
+            top: height * 0.4,
             child: SizedBox(
               height: height * 0.5,
               width: width,
@@ -171,7 +173,7 @@ class _AddFoodState extends State<AddFood> {
                           shape: BoxShape.rectangle,
                           borderRadius: BorderRadius.circular(20),
                           color: Color.fromARGB(218, 241, 241, 241)),
-                      width: width * 0.7,
+                      width: width * 0.6,
                       height: height * 0.08,
                       child: Center(
                         child: Row(
@@ -188,7 +190,7 @@ class _AddFoodState extends State<AddFood> {
                                 child: IconButton(
                                   onPressed: () {},
                                   icon: Icon(
-                                    Icons.location_on,
+                                    Icons.shopping_bag_outlined,
                                     size: 16,
                                   ),
                                   color: Color(0xFF756d54),
@@ -206,6 +208,62 @@ class _AddFoodState extends State<AddFood> {
                                     child: TextField(
                                       controller: _stockController,
                                       decoration: InputDecoration(
+                                        hintText: 'Stocks (optional)',
+                                        border: InputBorder.none,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.circular(20),
+                          color: Color.fromARGB(218, 241, 241, 241)),
+                      width: width * 0.6,
+                      height: height * 0.08,
+                      child: Center(
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                width: 40,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: Color(0xFFfcf4e4),
+                                ),
+                                child: IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.attach_money_outlined,
+                                    size: 16,
+                                  ),
+                                  color: Color(0xFF756d54),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    height: 45,
+                                    width: 150,
+                                    child: TextField(
+                                      controller: _priceController,
+                                      decoration: InputDecoration(
+                                        hintText: 'Price',
                                         border: InputBorder.none,
                                       ),
                                     ),

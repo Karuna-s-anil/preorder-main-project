@@ -212,35 +212,11 @@ class _ViewFoodsShopOwnerState extends State<ViewFoodsShopOwner> {
                       padding: const EdgeInsets.all(2.0),
                       child: GestureDetector(
                         onTap: () {},
-                        child: Stack(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.network(
-                                _foods[index].imageUrl,
-                              ),
-                            ),
-                            Positioned(
-                              top: 5,
-                              left: 5,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[200],
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Row(
-                                    children: [
-                                      CircleAvatar(
-                                          radius: 10,
-                                          backgroundColor: Colors.green[100]),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.network(
+                            _foods[index].imageUrl,
+                          ),
                         ),
                       ),
                     );

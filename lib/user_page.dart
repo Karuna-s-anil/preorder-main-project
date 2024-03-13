@@ -14,7 +14,7 @@ class UserIndexPage extends StatefulWidget {
 }
 
 class _AdmiIndexnPageState extends State<UserIndexPage> {
-  int index = 1;
+  int index = 0;
   List<dynamic> tabs = [
     FoodExplore(),
     ParkingBookingPage(),

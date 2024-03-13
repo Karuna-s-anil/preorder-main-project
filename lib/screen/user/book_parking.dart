@@ -34,26 +34,26 @@ class _ParkingBookingPageState extends State<ParkingBookingPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           // Display available slots
-          StreamBuilder(
-            stream: _firestore
-                .collection('bookings')
-                .doc(_getTodayDate())
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData || !snapshot.data!.exists) {
-                return const Text('Loading...');
-              }
+          // StreamBuilder(
+          //   stream: _firestore
+          //       .collection('bookings')
+          //       .doc(_getTodayDate())
+          //       .snapshots(),
+          //   builder: (context, snapshot) {
+          //     if (!snapshot.hasData || !snapshot.data!.exists) {
+          //       return const Text('Loading...');
+          //     }
 
-              maxSlots = snapshot.data!['maxSlots'];
-              return Text('Slots left: $maxSlots');
-            },
-          ),
+          //     maxSlots = snapshot.data!['maxSlots'];
+          //     return Text('Slots left: $maxSlots');
+          //   },
+          // ),
           FutureBuilder(
             future:
                 _firestore.collection('bookings').doc(_getTodayDate()).get(),
             builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
+                return Center(child: const CircularProgressIndicator());
               }
 
               // List<Map<String, dynamic>> bookingsList =
