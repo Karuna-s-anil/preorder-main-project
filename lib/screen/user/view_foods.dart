@@ -15,6 +15,8 @@ class Food {
   final String rating;
   final String ratingCount;
   final String postId;
+  final String description;
+  final int price;
 
   Food({
     required this.food,
@@ -22,6 +24,8 @@ class Food {
     required this.rating,
     required this.ratingCount,
     required this.postId,
+    required this.description,
+    required this.price,
   });
 }
 
@@ -42,9 +46,7 @@ class _FoodExploreState extends State<FoodExplore> {
     try {
       final postDocs =
           await FirebaseFirestore.instance.collection('foods').get();
-      print("------------------");
-      print(postDocs.docs.length);
-      print("-------------------");
+
       for (var postDoc in postDocs.docs) {
         print("------------------");
         print(postDoc.data());
@@ -53,12 +55,13 @@ class _FoodExploreState extends State<FoodExplore> {
         final ratingC = postDoc['ratingCount'].toString();
 
         final post = Food(
-          food: postDoc['food'],
-          imageUrl: postDoc['imageUrl'],
-          postId: postDoc['postId'],
-          rating: rating,
-          ratingCount: ratingC,
-        );
+            food: postDoc['food'],
+            imageUrl: postDoc['imageUrl'],
+            postId: postDoc['postId'],
+            rating: rating,
+            ratingCount: ratingC,
+            description: postDoc['description'],
+            price: postDoc['price']);
         print("------------------");
         print(post.food);
         print("-------------------");
@@ -249,6 +252,8 @@ class _FoodExploreState extends State<FoodExplore> {
                                 foodName: _foods[index].food,
                                 imageUrl: _foods[index].imageUrl,
                                 postId: _foods[index].postId,
+                                description: _foods[index].description,
+                                price: _foods[index].price,
                               ),
                             ),
                           );

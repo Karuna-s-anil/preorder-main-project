@@ -13,10 +13,14 @@ class FoodDetails extends StatefulWidget {
     required this.imageUrl,
     required this.foodName,
     required this.postId,
+    required this.description,
+    required this.price,
   });
   final String imageUrl;
   final String foodName;
   final String postId;
+  final String description;
+  final int price;
 
   @override
   State<FoodDetails> createState() => _FoodStateDetails();
@@ -133,6 +137,21 @@ class _FoodStateDetails extends State<FoodDetails> {
                       SizedBox(
                         height: 20,
                       ),
+                      Text(
+                        widget.description,
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        '₹ ${widget.price * _counterValue}',
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -149,7 +168,7 @@ class _FoodStateDetails extends State<FoodDetails> {
               loading: false,
               onChange: (int val) {
                 setState(() {
-                  _counterValue = val;
+                  if (val > 0) _counterValue = val;
                 });
               },
               count: _counterValue,

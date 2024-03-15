@@ -16,8 +16,9 @@ class AddFood extends StatefulWidget {
 }
 
 class _AddFoodState extends State<AddFood> {
-  final TextEditingController _stockController = TextEditingController();
+  // final TextEditingController _stockController = TextEditingController();
   final TextEditingController _foodController = TextEditingController();
+  final TextEditingController _descController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
 
   void showProgressDialog(BuildContext context) {
@@ -73,8 +74,9 @@ class _AddFoodState extends State<AddFood> {
         'postId': postId,
         'imageUrl': urlDownload,
         'food': _foodController.text,
-        'stock': _stockController.text,
-        'price': _priceController.text,
+        // 'stock': _stockController.text,
+        'description': _descController.text,
+        'price': int.parse(_priceController.text),
         'time': DateTime.now(),
         'rating': 0,
         'ratingCount': 0,
@@ -168,57 +170,72 @@ class _AddFoodState extends State<AddFood> {
                           fontWeight: FontWeight.bold,
                           fontSize: height * 0.025),
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(20),
-                          color: Color.fromARGB(218, 241, 241, 241)),
-                      width: width * 0.6,
-                      height: height * 0.08,
-                      child: Center(
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                width: 40,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: Color(0xFFfcf4e4),
-                                ),
-                                child: IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(
-                                    Icons.shopping_bag_outlined,
-                                    size: 16,
-                                  ),
-                                  color: Color(0xFF756d54),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(2.0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    height: 45,
-                                    width: 150,
-                                    child: TextField(
-                                      controller: _stockController,
-                                      decoration: InputDecoration(
-                                        hintText: 'Stocks (optional)',
-                                        border: InputBorder.none,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                    // Container(
+                    //   decoration: BoxDecoration(
+                    //       shape: BoxShape.rectangle,
+                    //       borderRadius: BorderRadius.circular(20),
+                    //       color: Color.fromARGB(218, 241, 241, 241)),
+                    //   width: width * 0.6,
+                    //   height: height * 0.08,
+                    //   child: Center(
+                    //     child: Row(
+                    //       children: [
+                    //         Padding(
+                    //           padding: const EdgeInsets.all(8.0),
+                    //           child: Container(
+                    //             width: 40,
+                    //             height: 40,
+                    //             decoration: BoxDecoration(
+                    //               borderRadius: BorderRadius.circular(20),
+                    //               color: Color(0xFFfcf4e4),
+                    //             ),
+                    //             child: IconButton(
+                    //               onPressed: () {},
+                    //               icon: Icon(
+                    //                 Icons.shopping_bag_outlined,
+                    //                 size: 16,
+                    //               ),
+                    //               color: Color(0xFF756d54),
+                    //             ),
+                    //           ),
+                    //         ),
+                    //         Padding(
+                    //           padding: const EdgeInsets.all(2.0),
+                    //           child: Column(
+                    //             mainAxisAlignment: MainAxisAlignment.center,
+                    //             children: [
+                    //               SizedBox(
+                    //                 height: 45,
+                    //                 width: 150,
+                    //                 child: TextField(
+                    //                   controller: _stockController,
+                    //                   decoration: InputDecoration(
+                    //                     hintText: 'Stocks (optional)',
+                    //                     border: InputBorder.none,
+                    //                   ),
+                    //                 ),
+                    //               ),
+                    //             ],
+                    //           ),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
+
+                    SizedBox(
+                      height: 20,
+                    ),
+                    TextField(
+                      controller: _descController,
+                      textAlign: TextAlign.center,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Food Description',
                       ),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: height * 0.015),
                     ),
                     SizedBox(
                       height: 20,
