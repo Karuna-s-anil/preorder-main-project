@@ -78,20 +78,32 @@ class _ParkingBookingPageState extends State<ParkingBookingPage> {
                       (slot) => slot['hour'] == hour && slot['slots'] > 0,
                     );
 
-                    print(isHourAvailable);
                     return Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 16.0),
                       child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(64, 60),
+                        ),
                         onPressed: isHourAvailable
                             ? () async {
                                 await _bookParkingSlot(hour);
                               }
                             : null,
-                        child: Text(
-                          '$hour:00',
-                          style: TextStyle(
-                            color: isHourAvailable ? Colors.black : Colors.grey,
-                          ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              '$hour:00 - ${hour + 1}:00',
+                              style: TextStyle(
+                                color: isHourAvailable
+                                    ? Colors.black
+                                    : Colors.grey,
+                              ),
+                            ),
+                            Text(
+                                '${hourlySlotsList[hour]['slots'].toString()} slots left')
+                          ],
                         ),
                       ),
                     );

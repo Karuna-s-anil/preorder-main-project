@@ -10,6 +10,25 @@ class ViewOrders extends StatefulWidget {
 
 class _ViewOrdersState extends State<ViewOrders> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  bool _isloading = false;
+  Future Cooking(String bookingId) async {
+    setState(() {
+      _isloading = true;
+    });
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    try {
+      await firestore.collection('orders').doc(bookingId).update({
+        'status': 'cooking',
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+
+    setState(() {
+      _isloading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,24 +55,57 @@ class _ViewOrdersState extends State<ViewOrders> {
               itemBuilder: (context, index) {
                 Map<String, dynamic> data =
                     securityDocs[index].data() as Map<String, dynamic>;
-                return Card(
-                  elevation: 2,
-                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: ListTile(
-                    title: Text(
-                      data['foodName'],
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                return Container(
+                  padding: EdgeInsets.all(20),
+                  margin: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.amberAccent,
+                  ),
+                  height: 200,
+                  width: double.infinity,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            data['foodName'],
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                          Text(
+                            'Status: ${data['status']}',
+                            style: const TextStyle(),
+                          ),
+                        ],
                       ),
-                    ),
-                    subtitle: Text(
-                      'Status: ${data['status']}',
-                      style: const TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    // You can add more customization here if needed
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text('Amount: ${data['amount']}'),
+                          data['status'] != 'cooking'
+                              ? ElevatedButton(
+                                  // style: ElevatedButton.styleFrom(
+                                  //   minimumSize: const Size(30, 30),
+                                  // ),
+                                  onPressed: () async {
+                                    await Cooking(data['bookingId']);
+                                  },
+                                  child: _isloading
+                                      ? const Center(
+                                          child: CircularProgressIndicator(
+                                            color: Colors.black,
+                                          ),
+                                        )
+                                      : Text('Mark as Cooking'))
+                              : Text('cooking'),
+                        ],
+                      )
+                    ],
                   ),
                 );
               },

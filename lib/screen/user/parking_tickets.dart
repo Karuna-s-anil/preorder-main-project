@@ -26,53 +26,54 @@ class ParkingTicket extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.done) {
           // Map<String, dynamic> snap =
           //     snapshot.data!.data() as Map<String, dynamic>;
-          return Container(
-            child: GestureDetector(
-              onTap: () {},
-              child: SizedBox(
-                child: Container(
-                  margin: const EdgeInsets.all(8),
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 235, 230, 229),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(21),
-                          ),
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    // Text(snap['food']),
-                                    Text(booking['hour'].toString()),
-                                  ],
-                                ),
-                                Container(
-                                  padding: EdgeInsets.all(10),
-                                  color: Colors.green,
-                                  child: Text(booking['status']),
-                                ),
-                                booking['status'] != 'completed'
-                                    ? QrImageView(
-                                        data: booking['bookingId'],
-                                        version: QrVersions.auto,
-                                        size: 100.0,
-                                      )
-                                    : Container(),
-                              ],
-                            ),
-                          ],
+          return GestureDetector(
+            onTap: () {},
+            child: SizedBox(
+              child: Container(
+                margin: const EdgeInsets.all(8),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 235, 230, 229),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(21),
                         ),
                       ),
-                    ],
-                  ),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // Text(snap['food']),
+                                  Text(
+                                      'Time: ${booking['hour'].toString()}:00 - ${booking['hour'] + 1}:00'),
+                                  Text(formatFirebaseTimestamp(
+                                      booking['bookingTime'])),
+                                ],
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(10),
+                                color: Colors.green,
+                                child: Text(booking['status']),
+                              ),
+                              booking['status'] != 'completed'
+                                  ? QrImageView(
+                                      data: booking['bookingId'],
+                                      version: QrVersions.auto,
+                                      size: 100.0,
+                                    )
+                                  : Container(),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
