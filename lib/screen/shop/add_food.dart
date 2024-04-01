@@ -121,7 +121,7 @@ class _AddFoodState extends State<AddFood> {
                                   image: AssetImage('assets/add_food.png'),
                                 ),
                               ),
-                              Text('Add food photo'),
+                              Text('Add item photo'),
                             ],
                           ),
                         )
@@ -164,7 +164,7 @@ class _AddFoodState extends State<AddFood> {
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: 'Food Name',
+                        hintText: 'Item Name',
                       ),
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -231,7 +231,7 @@ class _AddFoodState extends State<AddFood> {
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: 'Food Description',
+                        hintText: 'Item Description',
                       ),
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -307,7 +307,7 @@ class _AddFoodState extends State<AddFood> {
                             backgroundColor: Colors.transparent,
                             content: AwesomeSnackbarContent(
                               title: 'Yay',
-                              message: 'Food Added',
+                              message: 'Item Added',
                               contentType: ContentType.success,
                             ),
                           );
@@ -331,7 +331,7 @@ class _AddFoodState extends State<AddFood> {
                                       ),
                                     )
                                   : const Text(
-                                      'Add food',
+                                      'Add Item',
                                       style: TextStyle(color: Colors.white),
                                     ),
                             ),

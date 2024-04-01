@@ -14,6 +14,7 @@ class IndexPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
     final userModel = userProvider.userModel;
+    print(userModel!.type);
     if (userModel!.type == "admin") {
       return const ShopOwnerIndexPage();
     } else {

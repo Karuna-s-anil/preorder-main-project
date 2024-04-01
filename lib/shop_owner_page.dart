@@ -48,7 +48,7 @@ class _AdmiIndexnPageState extends State<ShopOwnerIndexPage> {
                 icon: Icons.list_alt,
                 text: 'Orders',
               ),
-              GButton(icon: Icons.add, text: 'Add Foods'),
+              GButton(icon: Icons.add, text: 'Add Item'),
               GButton(icon: Icons.security, text: 'My Security'),
             ],
           ),

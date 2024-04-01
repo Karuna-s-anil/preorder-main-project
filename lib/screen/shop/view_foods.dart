@@ -41,13 +41,7 @@ class _ViewFoodsShopOwnerState extends State<ViewFoodsShopOwner> {
     try {
       final postDocs =
           await FirebaseFirestore.instance.collection('foods').get();
-      print("------------------");
-      print(postDocs.docs.length);
-      print("-------------------");
       for (var postDoc in postDocs.docs) {
-        print("------------------");
-        print(postDoc.data());
-        print("-------------------");
         final rating = postDoc['rating'].toString();
         final ratingC = postDoc['ratingCount'].toString();
 
@@ -58,9 +52,6 @@ class _ViewFoodsShopOwnerState extends State<ViewFoodsShopOwner> {
           rating: rating,
           ratingCount: ratingC,
         );
-        print("------------------");
-        print(post.food);
-        print("-------------------");
         _foods.add(post);
       }
 
@@ -191,7 +182,7 @@ class _ViewFoodsShopOwnerState extends State<ViewFoodsShopOwner> {
                   });
                 },
                 borderRadius: BorderRadius.circular(10.0),
-                placeholder: 'Search foods',
+                placeholder: 'Search items',
               ),
             ),
           ),

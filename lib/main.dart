@@ -16,7 +16,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -60,7 +60,6 @@ class UserAuth extends StatelessWidget {
     if (auth.isAuthenticated) {
       return Consumer<UserProvider>(builder: (context, userProvider, child) {
         if (userProvider.userModel == null) {
-          // load the user data and update the provider
           final authmeth = authmethods();
           authmeth.getuserdetails().then((userModel) {
             userProvider.setUserModel(userModel);

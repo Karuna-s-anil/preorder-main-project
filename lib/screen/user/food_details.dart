@@ -30,18 +30,20 @@ class _FoodStateDetails extends State<FoodDetails> {
   int foodcount = 1;
   int _counterValue = 1;
   final bool _isloading = false;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final user = FirebaseAuth.instance.currentUser!;
 
   Future orderFood() async {
-    final FirebaseFirestore firestore = FirebaseFirestore.instance;
-    final user = FirebaseAuth.instance.currentUser!;
     String BookingId = const Uuid().v1();
     await firestore.collection('orders').doc(BookingId).set({'set': ''});
     try {
       await firestore.collection('orders').doc(BookingId).set({
         'bookingId': BookingId,
         'uId': user.uid,
-        'amount': _counterValue,
+        'amount': widget.price,
+        'count': _counterValue,
         'time': DateTime.now(),
+        'imageUrl': widget.imageUrl,
         'foodName': widget.foodName,
         'foodId': widget.postId,
         'status': 'ordered',
@@ -51,16 +53,57 @@ class _FoodStateDetails extends State<FoodDetails> {
     }
 
     try {
-      firestore.collection('foods').doc(widget.postId).update({
+      await firestore.collection('foods').doc(widget.postId).update({
         'orders': FieldValue.arrayUnion([BookingId])
       });
     } catch (e) {
       print(e.toString());
     }
     try {
-      firestore.collection('users').doc(user.uid).update({
+      await firestore.collection('users').doc(user.uid).update({
         'orders': FieldValue.arrayUnion([BookingId])
       });
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future addToCart() async {
+    try {
+      final cartDoc = firestore.collection('cart').doc(user.uid);
+
+      // Check if the document exists
+      final cartDocSnapshot = await cartDoc.get();
+
+      if (cartDocSnapshot.exists) {
+        // If the document exists, update it
+        await cartDoc.update({
+          'items': FieldValue.arrayUnion([
+            {
+              'amount': widget.price,
+              'count': _counterValue,
+              'time': DateTime.now(),
+              'foodName': widget.foodName,
+              'imageUrl': widget.imageUrl,
+              'foodId': widget.postId,
+            }
+          ])
+        });
+      } else {
+        // If the document doesn't exist, create it
+        await cartDoc.set({
+          'items': [
+            {
+              'amount': widget.price,
+              'count': _counterValue,
+              'time': DateTime.now(),
+              'imageUrl': widget.imageUrl,
+              'foodName': widget.foodName,
+              'foodId': widget.postId,
+            }
+          ]
+        });
+      }
     } catch (e) {
       print(e.toString());
     }
@@ -181,45 +224,76 @@ class _FoodStateDetails extends State<FoodDetails> {
               child: SizedBox(
                 width: width * 0.6,
                 height: width * 0.15,
-                child: GestureDetector(
-                  onTap: () async {
-                    await orderFood();
-                    final snackBar = SnackBar(
-                      elevation: 0,
-                      behavior: SnackBarBehavior.floating,
-                      backgroundColor: Colors.transparent,
-                      content: AwesomeSnackbarContent(
-                        title: 'Yay',
-                        message: 'Food Booked',
-                        contentType: ContentType.success,
-                      ),
-                    );
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () async {
+                        await orderFood();
+                        final snackBar = SnackBar(
+                          elevation: 0,
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.transparent,
+                          content: AwesomeSnackbarContent(
+                            title: 'Yay',
+                            message: 'Food Booked',
+                            contentType: ContentType.success,
+                          ),
+                        );
 
-                    ScaffoldMessenger.of(context)
-                      ..hideCurrentSnackBar()
-                      ..showSnackBar(snackBar);
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: Colors.black,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(
-                        child: _isloading
-                            ? const Center(
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                ),
-                              )
-                            : const Text(
-                                'Book food',
-                                style: TextStyle(color: Colors.white),
-                              ),
+                        ScaffoldMessenger.of(context)
+                          ..hideCurrentSnackBar()
+                          ..showSnackBar(snackBar);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: Colors.black,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: _isloading
+                                ? const Center(
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : const Text(
+                                    'Buy Now',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Container(
+                      child: IconButton(
+                        onPressed: () async {
+                          await addToCart();
+                          final snackBar = SnackBar(
+                            elevation: 0,
+                            behavior: SnackBarBehavior.floating,
+                            backgroundColor: Colors.transparent,
+                            content: AwesomeSnackbarContent(
+                              title: 'Added',
+                              message: 'Item added to cart 🛒',
+                              contentType: ContentType.success,
+                            ),
+                          );
+
+                          ScaffoldMessenger.of(context)
+                            ..hideCurrentSnackBar()
+                            ..showSnackBar(snackBar);
+                        },
+                        icon: Icon(
+                          Icons.shopping_cart_checkout_rounded,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

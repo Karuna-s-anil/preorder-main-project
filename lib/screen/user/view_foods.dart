@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:preorder/screen/user/cart_screen.dart';
 import 'package:preorder/screen/user/food_details.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -48,23 +49,20 @@ class _FoodExploreState extends State<FoodExplore> {
           await FirebaseFirestore.instance.collection('foods').get();
 
       for (var postDoc in postDocs.docs) {
-        print("------------------");
-        print(postDoc.data());
-        print("-------------------");
         final rating = postDoc['rating'].toString();
         final ratingC = postDoc['ratingCount'].toString();
+        final priceValue = int.parse(postDoc['price'].toString());
 
         final post = Food(
-            food: postDoc['food'],
-            imageUrl: postDoc['imageUrl'],
-            postId: postDoc['postId'],
-            rating: rating,
-            ratingCount: ratingC,
-            description: postDoc['description'],
-            price: postDoc['price']);
-        print("------------------");
-        print(post.food);
-        print("-------------------");
+          food: postDoc['food'],
+          imageUrl: postDoc['imageUrl'],
+          postId: postDoc['postId'],
+          rating: rating,
+          ratingCount: ratingC,
+          description: postDoc['description'],
+          price: priceValue,
+        );
+
         _foods.add(post);
       }
 
@@ -98,6 +96,12 @@ class _FoodExploreState extends State<FoodExplore> {
           ),
         ),
         actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (_) => CartScreen()));
+              },
+              icon: Icon(Icons.shopping_cart)),
           CustomPopupMenu(
             menuBuilder: () => ClipRRect(
               borderRadius: BorderRadius.circular(5),
@@ -117,67 +121,33 @@ class _FoodExploreState extends State<FoodExplore> {
                                 }
                                 _controller.hideMenu();
                               },
-                              child: item.title == 'Messages'
-                                  ? FirebaseAuth.instance.currentUser!.uid ==
-                                          'ZKdxIXM5C0gDRim3qnQzxgRiqvI2'
-                                      ? Container(
-                                          height: 40,
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 20),
-                                          child: Row(
-                                            children: <Widget>[
-                                              Icon(
-                                                item.icon,
-                                                size: 15,
-                                                color: Colors.white,
-                                              ),
-                                              Expanded(
-                                                child: Container(
-                                                  margin:
-                                                      EdgeInsets.only(left: 10),
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 10),
-                                                  child: Text(
-                                                    item.title,
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 12,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      : Container()
-                                  : Container(
-                                      height: 40,
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 20),
-                                      child: Row(
-                                        children: <Widget>[
-                                          Icon(
-                                            item.icon,
-                                            size: 15,
+                              child: Container(
+                                height: 40,
+                                padding: EdgeInsets.symmetric(horizontal: 20),
+                                child: Row(
+                                  children: <Widget>[
+                                    Icon(
+                                      item.icon,
+                                      size: 15,
+                                      color: Colors.white,
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        margin: EdgeInsets.only(left: 10),
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 10),
+                                        child: Text(
+                                          item.title,
+                                          style: TextStyle(
                                             color: Colors.white,
+                                            fontSize: 12,
                                           ),
-                                          Expanded(
-                                            child: Container(
-                                              margin: EdgeInsets.only(left: 10),
-                                              padding: EdgeInsets.symmetric(
-                                                  vertical: 10),
-                                              child: Text(
-                                                item.title,
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 12,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                                        ),
                                       ),
-                                    )),
+                                    ),
+                                  ],
+                                ),
+                              )),
                         )
                         .toList(),
                   ),
@@ -225,7 +195,7 @@ class _FoodExploreState extends State<FoodExplore> {
                   });
                 },
                 borderRadius: BorderRadius.circular(10.0),
-                placeholder: 'Search foods',
+                placeholder: 'Search items',
               ),
             ),
           ),
