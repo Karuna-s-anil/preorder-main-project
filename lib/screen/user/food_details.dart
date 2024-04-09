@@ -71,12 +71,8 @@ class _FoodStateDetails extends State<FoodDetails> {
   Future addToCart() async {
     try {
       final cartDoc = firestore.collection('cart').doc(user.uid);
-
-      // Check if the document exists
       final cartDocSnapshot = await cartDoc.get();
-
       if (cartDocSnapshot.exists) {
-        // If the document exists, update it
         await cartDoc.update({
           'items': FieldValue.arrayUnion([
             {
@@ -90,7 +86,6 @@ class _FoodStateDetails extends State<FoodDetails> {
           ])
         });
       } else {
-        // If the document doesn't exist, create it
         await cartDoc.set({
           'items': [
             {
