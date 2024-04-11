@@ -230,8 +230,36 @@ class _FoodExploreState extends State<FoodExplore> {
                         },
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                          child: Image.network(
-                            _foods[index].imageUrl,
+                          child: Stack(
+                            children: [
+                              Image.network(
+                                _foods[index].imageUrl,
+                              ),
+                              Positioned(
+                                bottom: 0,
+                                child: Container(
+                                  color:
+                                      const Color.fromARGB(255, 210, 210, 210),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(_foods[index].food),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                bottom: 0,
+                                right: 0,
+                                child: Container(
+                                  color:
+                                      const Color.fromARGB(255, 210, 210, 210),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                        '₹ ${_foods[index].price.toString()}'),
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
                         ),
                       ),

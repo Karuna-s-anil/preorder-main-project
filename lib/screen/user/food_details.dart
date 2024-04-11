@@ -201,6 +201,7 @@ class _FoodStateDetails extends State<FoodDetails> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             CounterButton(
               loading: false,
@@ -245,7 +246,7 @@ class _FoodStateDetails extends State<FoodDetails> {
                           color: Colors.black,
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
                           child: Center(
                             child: _isloading
                                 ? const Center(
@@ -262,30 +263,57 @@ class _FoodStateDetails extends State<FoodDetails> {
                       ),
                     ),
                     SizedBox(
-                      width: 10,
+                      width: 5,
                     ),
                     Container(
-                      child: IconButton(
-                        onPressed: () async {
-                          await addToCart();
-                          final snackBar = SnackBar(
-                            elevation: 0,
-                            behavior: SnackBarBehavior.floating,
-                            backgroundColor: Colors.transparent,
-                            content: AwesomeSnackbarContent(
-                              title: 'Added',
-                              message: 'Item added to cart 🛒',
-                              contentType: ContentType.success,
-                            ),
-                          );
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: Row(
+                        children: [
+                          IconButton(
+                            onPressed: () async {
+                              await addToCart();
+                              final snackBar = SnackBar(
+                                elevation: 0,
+                                behavior: SnackBarBehavior.floating,
+                                backgroundColor: Colors.transparent,
+                                content: AwesomeSnackbarContent(
+                                  title: 'Added',
+                                  message: 'Item added to cart 🛒',
+                                  contentType: ContentType.success,
+                                ),
+                              );
 
-                          ScaffoldMessenger.of(context)
-                            ..hideCurrentSnackBar()
-                            ..showSnackBar(snackBar);
-                        },
-                        icon: Icon(
-                          Icons.shopping_cart_checkout_rounded,
-                        ),
+                              ScaffoldMessenger.of(context)
+                                ..hideCurrentSnackBar()
+                                ..showSnackBar(snackBar);
+                            },
+                            icon: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                color: Colors.black,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Icon(
+                                  color: Colors.white,
+                                  Icons.shopping_cart_checkout_rounded,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 15.0),
+                            child: Text(
+                              'Add to cart',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                     ),
                   ],

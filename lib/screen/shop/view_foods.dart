@@ -5,6 +5,7 @@ import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:preorder/screen/shop/qr_scanner.dart';
 import 'package:preorder/screen/user/view_foods.dart';
@@ -16,6 +17,7 @@ class Food {
   final String rating;
   final String ratingCount;
   final String postId;
+  final int price;
 
   Food({
     required this.food,
@@ -23,6 +25,7 @@ class Food {
     required this.rating,
     required this.ratingCount,
     required this.postId,
+    required this.price,
   });
 }
 
@@ -46,12 +49,12 @@ class _ViewFoodsShopOwnerState extends State<ViewFoodsShopOwner> {
         final ratingC = postDoc['ratingCount'].toString();
 
         final post = Food(
-          food: postDoc['food'],
-          imageUrl: postDoc['imageUrl'],
-          postId: postDoc['postId'],
-          rating: rating,
-          ratingCount: ratingC,
-        );
+            food: postDoc['food'],
+            imageUrl: postDoc['imageUrl'],
+            postId: postDoc['postId'],
+            rating: rating,
+            ratingCount: ratingC,
+            price: postDoc['price']);
         _foods.add(post);
       }
 
@@ -205,8 +208,36 @@ class _ViewFoodsShopOwnerState extends State<ViewFoodsShopOwner> {
                         onTap: () {},
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                          child: Image.network(
-                            _foods[index].imageUrl,
+                          child: Stack(
+                            children: [
+                              Image.network(
+                                _foods[index].imageUrl,
+                              ),
+                              Positioned(
+                                bottom: 0,
+                                child: Container(
+                                  color:
+                                      const Color.fromARGB(255, 210, 210, 210),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(_foods[index].food),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                bottom: 0,
+                                right: 0,
+                                child: Container(
+                                  color:
+                                      const Color.fromARGB(255, 210, 210, 210),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                        '₹ ${_foods[index].price.toString()}'),
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
                         ),
                       ),
