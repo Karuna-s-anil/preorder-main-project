@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:preorder/screen/security/qr_scanner.dart';
+import 'package:preorder/screen/security/view_parking.dart';
 
 class SecurityHomePage extends StatefulWidget {
   const SecurityHomePage({super.key});
@@ -24,6 +25,7 @@ class _SecurityHomePageState extends State<SecurityHomePage> {
           Icons.qr_code_scanner,
         ),
       ),
+      body: ParkingBookingPage(),
     );
   }
 }

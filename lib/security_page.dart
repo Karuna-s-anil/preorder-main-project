@@ -2,9 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:preorder/screen/user/book_parking.dart';
-import 'package:preorder/screen/user/orders_and_bookings.dart';
-import 'package:preorder/screen/user/view_foods.dart';
+import 'package:preorder/screen/security/security_homepage.dart';
 
 class SecurityIndexPage extends StatefulWidget {
   const SecurityIndexPage({super.key});
@@ -14,41 +12,14 @@ class SecurityIndexPage extends StatefulWidget {
 }
 
 class _AdmiIndexnPageState extends State<SecurityIndexPage> {
-  int index = 1;
+  int index = 0;
   List<dynamic> tabs = [
-    FoodExplore(),
-    ParkingBookingPage(),
-    OrdersAndBookings(),
+    SecurityHomePage(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: Container(
-        color: Colors.black,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
-          child: GNav(
-            backgroundColor: Colors.black,
-            color: Colors.white,
-            activeColor: Colors.white,
-            tabBackgroundColor: Colors.grey,
-            gap: 8,
-            onTabChange: (value) {
-              setState(() {
-                index = value;
-                print(index);
-              });
-            },
-            padding: EdgeInsets.all(16),
-            tabs: [
-              GButton(icon: Icons.food_bank, text: 'Foods'),
-              GButton(icon: Icons.car_crash, text: 'Parking'),
-              GButton(icon: Icons.food_bank, text: 'Orders'),
-            ],
-          ),
-        ),
-      ),
       body: SafeArea(
         child: tabs[index],
       ),

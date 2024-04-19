@@ -22,7 +22,7 @@ class _SecurityQRScannerState extends State<SecurityQRScanner> {
   // final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   var name = '';
-  var date = '';
+  int date = 0;
 
   @override
   void dispose() {
@@ -59,13 +59,34 @@ class _SecurityQRScannerState extends State<SecurityQRScanner> {
           .collection('bookings')
           .doc(result!.code)
           .get()
-          .then((Bvalue) async {
+          .then((bookingSnapshot) async {
+        Map<String, dynamic> userIdData =
+            bookingSnapshot.data() as Map<String, dynamic>;
+        String userId = userIdData['uId'];
+        int hour = userIdData['hour'];
+
+        DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userId)
+            .get();
+
+        Map<String, dynamic> userData =
+            userSnapshot.data() as Map<String, dynamic>;
+        String userName = userData['username'];
+
+        setState(() {
+          name = userName;
+          date = hour;
+        });
+
         await FirebaseFirestore.instance
             .collection('bookings')
             .doc(result!.code)
             .update({'status': 'in'});
       });
-    } catch (e) {}
+    } catch (e) {
+      print('Error getting user data: $e');
+    }
   }
 
   @override
@@ -96,7 +117,7 @@ class _SecurityQRScannerState extends State<SecurityQRScanner> {
                   ? Column(
                       children: [
                         Text('$name checked in 🚗'),
-                        Text(date),
+                        Text('Slot Time is fom $date:00 to ${date + 1}:00'),
                       ],
                     )
                   : const Text('Scan a code'),
