@@ -103,25 +103,7 @@ class _CartScreenState extends State<CartScreen> {
                       itemCount: cartData["items"].length,
                       itemBuilder: (context, index) => Padding(
                         padding: EdgeInsets.symmetric(vertical: 10),
-                        child: Dismissible(
-                          key: Key(cartData["items"][index]['foodId']),
-                          direction: DismissDirection.endToStart,
-                          onDismissed: (direction) {},
-                          background: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 20),
-                            decoration: BoxDecoration(
-                              color: Color(0xFFFFE6E6),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Row(
-                              children: [
-                                Spacer(),
-                                SvgPicture.asset("assets/Trash.svg"),
-                              ],
-                            ),
-                          ),
-                          child: CartCard(cart: cartData["items"]),
-                        ),
+                        child: CartCard(cart: cartData["items"]),
                       ),
                     ),
                   ),

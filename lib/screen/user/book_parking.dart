@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 class ParkingBookingPage extends StatefulWidget {
-  const ParkingBookingPage({super.key});
+  const ParkingBookingPage({Key? key}) : super(key: key);
 
   @override
   State<ParkingBookingPage> createState() => _ParkingBookingPageState();
@@ -33,40 +33,22 @@ class _ParkingBookingPageState extends State<ParkingBookingPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Display available slots
-          // StreamBuilder(
-          //   stream: _firestore
-          //       .collection('bookings')
-          //       .doc(_getTodayDate())
-          //       .snapshots(),
-          //   builder: (context, snapshot) {
-          //     if (!snapshot.hasData || !snapshot.data!.exists) {
-          //       return const Text('Loading...');
-          //     }
-
-          //     maxSlots = snapshot.data!['maxSlots'];
-          //     return Text('Slots left: $maxSlots');
-          //   },
-          // ),
-          FutureBuilder(
-            future:
-                _firestore.collection('bookings').doc(_getTodayDate()).get(),
+          StreamBuilder<DocumentSnapshot>(
+            stream: _firestore
+                .collection('bookings')
+                .doc(_getTodayDate())
+                .snapshots(),
             builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: const CircularProgressIndicator());
+                return Container();
               }
 
-              // List<Map<String, dynamic>> bookingsList =
-              //     List<Map<String, dynamic>>.from(
-              //   (snapshot.data?.get('bookings') as List) ?? [],
-              // );
               int currentHour = DateTime.now().hour;
 
               List<Map<String, dynamic>> hourlySlotsList =
                   List<Map<String, dynamic>>.from(
                 (snapshot.data?.get('hourlySlots') as List),
               );
-              // int currentHour = DateTime.now().hour;
 
               return Expanded(
                 child: ListView.builder(
@@ -101,8 +83,24 @@ class _ParkingBookingPageState extends State<ParkingBookingPage> {
                                     : Colors.grey,
                               ),
                             ),
-                            Text(
-                                '${hourlySlotsList[hour]['slots'].toString()} slots left')
+                            StreamBuilder<DocumentSnapshot>(
+                              stream: _firestore
+                                  .collection('bookings')
+                                  .doc(_getTodayDate())
+                                  .snapshots(),
+                              builder: (context,
+                                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Container();
+                                } else {
+                                  int slotsLeft = hourlySlotsList.firstWhere(
+                                      (slot) => slot['hour'] == hour)['slots'];
+                                  return Text(
+                                      '${slotsLeft.toString()} slots left');
+                                }
+                              },
+                            ),
                           ],
                         ),
                       ),

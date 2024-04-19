@@ -70,9 +70,18 @@ class _FoodStateDetails extends State<FoodDetails> {
 
   Future addToCart() async {
     try {
-      final cartDoc = firestore.collection('cart').doc(user.uid);
-      final cartDocSnapshot = await cartDoc.get();
+      DocumentReference<Map<String, dynamic>> cartDoc =
+          firestore.collection('cart').doc(user.uid);
+      DocumentSnapshot<Map<String, dynamic>> cartDocSnapshot =
+          await cartDoc.get();
+      if (!cartDocSnapshot.exists) {
+        print("Not exists");
+        await firestore.collection('cart').doc(user.uid).set({'': ''});
+        cartDocSnapshot = await cartDoc.get();
+      }
       if (cartDocSnapshot.exists) {
+        print("exists");
+
         await cartDoc.update({
           'items': FieldValue.arrayUnion([
             {

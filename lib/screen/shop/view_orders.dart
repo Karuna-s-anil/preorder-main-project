@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:preorder/screen/user/cart_card.dart';
+import 'package:preorder/screen/shop/cart_card.dart';
 
 class ViewOrders extends StatefulWidget {
   const ViewOrders({super.key});
@@ -69,7 +69,7 @@ class _ViewOrdersState extends State<ViewOrders> {
                       // Row(
                       //   mainAxisAlignment: MainAxisAlignment.spaceAround,
                       //   children: [
-                      CartCard(cart: data["items"]),
+                      CartCard(uId: data["uId"], cart: data["items"]),
                   // Column(
                   //   crossAxisAlignment: CrossAxisAlignment.start,
                   //   children: [
