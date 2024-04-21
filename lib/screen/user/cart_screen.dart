@@ -17,7 +17,7 @@ class _CartScreenState extends State<CartScreen> {
 
   Future orderFood(List<dynamic> items) async {
     String BookingId = const Uuid().v1();
-    await firestore.collection('orders').doc(BookingId).set({'set': ''});
+    await firestore.collection('orders').doc(BookingId).set({'set': '1'});
     try {
       await firestore.collection('orders').doc(BookingId).set({
         'bookingId': BookingId,

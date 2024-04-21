@@ -264,6 +264,66 @@ class _FoodExploreState extends State<FoodExplore> {
                         ),
                       ),
                     );
+                  } else {
+                    print(_foods[index].food.toLowerCase());
+                    print(searchText.toLowerCase());
+                    if (_foods[index]
+                        .food
+                        .toLowerCase()
+                        .contains(searchText.toLowerCase())) {
+                      return Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => FoodDetails(
+                                  foodName: _foods[index].food,
+                                  imageUrl: _foods[index].imageUrl,
+                                  postId: _foods[index].postId,
+                                  description: _foods[index].description,
+                                  price: _foods[index].price,
+                                ),
+                              ),
+                            );
+                          },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Stack(
+                              children: [
+                                Image.network(
+                                  _foods[index].imageUrl,
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  child: Container(
+                                    color: const Color.fromARGB(
+                                        255, 210, 210, 210),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(_foods[index].food),
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  right: 0,
+                                  child: Container(
+                                    color: const Color.fromARGB(
+                                        255, 210, 210, 210),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                          '₹ ${_foods[index].price.toString()}'),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    }
                   }
                   return Container();
                 },

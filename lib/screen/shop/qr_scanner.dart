@@ -66,7 +66,7 @@ class _QRScannerState extends State<QRScanner> {
         await FirebaseFirestore.instance
             .collection('orders')
             .doc(result!.code)
-            .update({'status': 'waiting approval'});
+            .update({'status': 'order delivered'});
       });
     } catch (e) {}
   }

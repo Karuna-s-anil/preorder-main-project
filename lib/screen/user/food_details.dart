@@ -35,7 +35,7 @@ class _FoodStateDetails extends State<FoodDetails> {
 
   Future orderFood() async {
     String BookingId = const Uuid().v1();
-    await firestore.collection('orders').doc(BookingId).set({'set': ''});
+    await firestore.collection('orders').doc(BookingId).set({'set': '1'});
     try {
       await firestore.collection('orders').doc(BookingId).set({
         'bookingId': BookingId,
@@ -81,7 +81,7 @@ class _FoodStateDetails extends State<FoodDetails> {
           await cartDoc.get();
       if (!cartDocSnapshot.exists) {
         print("Not exists");
-        await firestore.collection('cart').doc(user.uid).set({'': ''});
+        await firestore.collection('cart').doc(user.uid).set({'set': '1'});
         cartDocSnapshot = await cartDoc.get();
       }
       if (cartDocSnapshot.exists) {
