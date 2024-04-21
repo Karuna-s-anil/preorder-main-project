@@ -5,14 +5,13 @@ import 'package:preorder/screen/user/parking_tickets.dart';
 import 'package:provider/provider.dart';
 
 class ViewParkingBookings extends StatelessWidget {
-  const ViewParkingBookings({
-    super.key,
-  });
+  const ViewParkingBookings({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
     final userModel = userProvider.userModel;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Parking'),
@@ -37,15 +36,22 @@ class ViewParkingBookings extends StatelessWidget {
               child: Text('No orders found.'),
             );
           } else {
-            final bookings = snapshot.data!.docs;
+            List<Map<String, dynamic>> bookings = snapshot.data!.docs
+                .map((doc) => doc.data() as Map<String, dynamic>)
+                .toList();
+
+            // Sort the bookings based on 'bookingTime'
+            bookings
+                .sort((a, b) => b['bookingTime'].compareTo(a['bookingTime']));
+
+            print("bookings");
+            print(bookings);
+            print("bookings");
 
             return ListView.builder(
               itemCount: bookings.length,
               itemBuilder: (BuildContext context, int index) {
-                final booking = bookings[index].data();
-                print("bookings");
-                print(booking);
-                print("bookings");
+                final booking = bookings[index];
                 return ParkingTicket(
                   docID: booking['bookingId'],
                   booking: booking,

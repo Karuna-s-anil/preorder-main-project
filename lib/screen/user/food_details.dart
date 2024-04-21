@@ -40,12 +40,17 @@ class _FoodStateDetails extends State<FoodDetails> {
       await firestore.collection('orders').doc(BookingId).set({
         'bookingId': BookingId,
         'uId': user.uid,
-        'amount': widget.price,
-        'count': _counterValue,
         'time': DateTime.now(),
-        'imageUrl': widget.imageUrl,
-        'foodName': widget.foodName,
-        'foodId': widget.postId,
+        'items': [
+          {
+            'amount': widget.price,
+            'count': _counterValue,
+            'time': DateTime.now(),
+            'foodName': widget.foodName,
+            'imageUrl': widget.imageUrl,
+            'foodId': widget.postId,
+          }
+        ],
         'status': 'ordered',
       });
     } catch (e) {
