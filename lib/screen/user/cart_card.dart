@@ -108,10 +108,14 @@ class CartCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      cart[index]["foodName"],
-                      style: TextStyle(color: Colors.black, fontSize: 16),
-                      maxLines: 2,
+                    SizedBox(
+                      width: 200,
+                      child: Text(
+                        cart[index]["foodName"],
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(color: Colors.black, fontSize: 16),
+                        maxLines: 2,
+                      ),
                     ),
                     SizedBox(height: 10),
                     Row(

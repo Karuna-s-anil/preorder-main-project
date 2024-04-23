@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:preorder/screen/shop/food_details.dart';
 import 'package:preorder/screen/shop/qr_scanner.dart';
 import 'package:preorder/screen/user/view_foods.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -14,17 +15,16 @@ import 'package:transparent_image/transparent_image.dart';
 class Food {
   final String food;
   final String imageUrl;
-  final String rating;
-  final String ratingCount;
+
   final String postId;
+  final String description;
   final int price;
 
   Food({
     required this.food,
     required this.imageUrl,
-    required this.rating,
-    required this.ratingCount,
     required this.postId,
+    required this.description,
     required this.price,
   });
 }
@@ -44,17 +44,18 @@ class _ViewFoodsShopOwnerState extends State<ViewFoodsShopOwner> {
     try {
       final postDocs =
           await FirebaseFirestore.instance.collection('foods').get();
+
       for (var postDoc in postDocs.docs) {
-        final rating = postDoc['rating'].toString();
-        final ratingC = postDoc['ratingCount'].toString();
+        final priceValue = int.parse(postDoc['price'].toString());
 
         final post = Food(
-            food: postDoc['food'],
-            imageUrl: postDoc['imageUrl'],
-            postId: postDoc['postId'],
-            rating: rating,
-            ratingCount: ratingC,
-            price: postDoc['price']);
+          food: postDoc['food'],
+          imageUrl: postDoc['imageUrl'],
+          postId: postDoc['postId'],
+          description: postDoc['description'],
+          price: priceValue,
+        );
+
         _foods.add(post);
       }
 
@@ -205,7 +206,19 @@ class _ViewFoodsShopOwnerState extends State<ViewFoodsShopOwner> {
                     return Padding(
                       padding: const EdgeInsets.all(2.0),
                       child: GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => ShopFoodDetails(
+                                foodName: _foods[index].food,
+                                imageUrl: _foods[index].imageUrl,
+                                postId: _foods[index].postId,
+                                description: _foods[index].description,
+                                price: _foods[index].price,
+                              ),
+                            ),
+                          );
+                        },
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: Stack(
@@ -242,6 +255,66 @@ class _ViewFoodsShopOwnerState extends State<ViewFoodsShopOwner> {
                         ),
                       ),
                     );
+                  } else {
+                    print(_foods[index].food.toLowerCase());
+                    print(searchText.toLowerCase());
+                    if (_foods[index]
+                        .food
+                        .toLowerCase()
+                        .contains(searchText.toLowerCase())) {
+                      return Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => ShopFoodDetails(
+                                  foodName: _foods[index].food,
+                                  imageUrl: _foods[index].imageUrl,
+                                  postId: _foods[index].postId,
+                                  description: _foods[index].description,
+                                  price: _foods[index].price,
+                                ),
+                              ),
+                            );
+                          },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Stack(
+                              children: [
+                                Image.network(
+                                  _foods[index].imageUrl,
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  child: Container(
+                                    color: const Color.fromARGB(
+                                        255, 210, 210, 210),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(_foods[index].food),
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  right: 0,
+                                  child: Container(
+                                    color: const Color.fromARGB(
+                                        255, 210, 210, 210),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                          '₹ ${_foods[index].price.toString()}'),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    }
                   }
                   return Container();
                 },
